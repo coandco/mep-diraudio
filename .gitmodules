@@ -1,0 +1,3 @@
+[submodule "mep-feature-playlist"]
+	path = mep-feature-playlist
+	url = https://github.com/duozersk/mep-feature-playlist.git
