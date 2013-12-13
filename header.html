@@ -1,0 +1,86 @@
+<html>
+<head>
+  <title>Directory Listing</title>
+  <script type="text/javascript" src="http://cdn.jsdelivr.net/jquery/1.10.2/jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" src="http://cdn.jsdelivr.net/mediaelement/2.12.0/mediaelement-and-player.min.js"></script>
+  <script type="text/javascript" src="/mep-diraudio/mep-feature-playlist/mep-feature-playlist.js"></script>
+  <link type="text/css" rel="stylesheet" href="http://cdn.jsdelivr.net/mediaelement/2.12.0/mediaelementplayer.min.css" />
+  <link type="text/css" rel="stylesheet" href="/mep-diraudio/mep-feature-playlist/mep-feature-playlist.css" />
+
+  <script>
+$(function(){
+    var myplayer = $('audio').first();
+    var mp3links = $.merge($('a[href$="mp3"]'), $('a[href$="MP3"]'));
+    var getTrackName = function(trackUrl) {
+        var trackUrlParts = trackUrl.split("/");
+        if (trackUrlParts.length > 0) {
+          return decodeURIComponent(trackUrlParts[trackUrlParts.length-1]);
+        }
+        else {
+          return '';
+        }
+    };
+
+
+    mp3links.each(function() {
+      myplayer.append('<source src="' + $(this).attr("href") + '" />' + "\n");
+
+      //The following line used to just use $(this).attr("href"), but jquery
+      // does some URL completion with the src attribute of audio sources, so
+      // we're taking advantage of it to match what mep-playlist has for data-url
+      $(this.parentElement.parentElement).attr("data-url", $('source[src="' + $(this).attr("href") + '"]')[0].src);
+      $(this.parentElement.parentElement).find("img").attr("src", "/mep-diraudio/play.gif");
+      $(this.parentElement.parentElement).find("img").click(function() {
+        if ($(this.parentElement.parentElement).hasClass("current")) {
+          $('audio')[0].player.pause();
+        } else {
+          $('audio')[0].player.playTrackURL($(this.parentElement.parentElement).attr("data-url"));
+        }
+      });
+    });        
+
+    document.title = "Index of " + decodeURIComponent(document.location.pathname);
+
+    if (mp3links.length != 0) {
+      $('audio,video').mediaelementplayer({
+        loop: true,
+        shuffle: false,
+        playlist: false,
+        audioHeight: 30,
+	audioWidth: $($('table')[0]).width(),
+        playlistposition: 'bottom',
+        features: ['playlistfeature', 'prevtrack', 'playpause', 'nexttrack', 'loop', 'shuffle', 'playlist', 'current', 'progress', 'duration', 'volume'],
+	keyActions: [],
+	success: function(media) {
+	  media.addEventListener('pause', function(media) {
+	    $('tr[data-url]').each(function() {
+	      $(this).removeClass("current");
+	      $(this).find("img").attr("src", "/mep-diraudio/play.gif");
+	    });
+	    document.title = "Index of " + decodeURIComponent(document.location.pathname);
+	    $('#playingfile')[0].innerHTML = "nothing";
+          });
+	  media.addEventListener('play', function(media) {
+	    $('tr[data-url]').each(function() {
+	      $(this).removeClass("current");
+	      $(this).find("img").attr("src", "/mep-diraudio/play.gif");
+	    });
+	    var tablerow = $('tr[data-url$="' + media.src + '"]')[0];
+	    $(tablerow).addClass('current');
+	    $(tablerow).find("img").attr("src", "/mep-diraudio/pause.gif");
+	    document.title = "▶ " + getTrackName(media.src) + " in " + decodeURIComponent(document.location.pathname);
+	    $('#playingfile')[0].innerHTML = getTrackName(media.src);
+          });
+	}
+      }); 
+      $('audio').show();
+    }
+
+});
+  </script>
+</head>
+<body>
+
+<span id="currentlyplaying">Currently playing: <span id="playingfile">nothing</span></span><br />
+<audio controls="controls" type="audio/mp3" id="pageplayer" style="display:hidden">
+</audio>

@@ -1,0 +1,3 @@
+Options +Indexes
+IndexOptions +SuppressHTMLPreamble
+HeaderName /mep-diraudio/header.html
