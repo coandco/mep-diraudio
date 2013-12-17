@@ -73,7 +73,7 @@ $(function(){
           });
 	}
       }); 
-      $('audio').show();
+      $('#playerdiv').css('visibility', 'visible');
     }
 
 });
@@ -81,6 +81,8 @@ $(function(){
 </head>
 <body>
 
+<div id="playerdiv" style="visibility:hidden;">
 <span id="currentlyplaying">Currently playing: <span id="playingfile">nothing</span></span><br />
-<audio controls="controls" type="audio/mp3" id="pageplayer" style="display:hidden">
+<audio controls="controls" type="audio/mp3" id="pageplayer">
 </audio>
+</div>
