@@ -7,6 +7,18 @@
   <link type="text/css" rel="stylesheet" href="http://cdn.jsdelivr.net/mediaelement/2.12.0/mediaelementplayer.min.css" />
   <link type="text/css" rel="stylesheet" href="/mep-diraudio/mep-feature-playlist/mep-feature-playlist.css" />
 
+  <style>
+    .curplaydiv {
+      background: none repeat scroll 0 0 #232323;
+      font-family: Helvetica,Arial,sans-serif;
+      font-size: 11px;
+      font-variant: small-caps;
+      color: #FFFFFF;
+      display: block;
+      padding: 2px;
+    }
+  </style>
+
   <script>
 $(function(){
     var myplayer = $('audio').first();
@@ -40,6 +52,9 @@ $(function(){
     });        
 
     document.title = "Index of " + decodeURIComponent(document.location.pathname);
+
+    $('.curplaydiv').width($($('table')[0]).width()-4);
+    $('#spacer').height($($('#playerdiv')[0]).height());
 
     if (mp3links.length != 0) {
       $('audio,video').mediaelementplayer({
@@ -81,8 +96,9 @@ $(function(){
 </head>
 <body>
 
-<div id="playerdiv" style="visibility:hidden;">
-<span id="currentlyplaying">Currently playing: <span id="playingfile">nothing</span></span><br />
+<div id="playerdiv" style="visibility:hidden; position:fixed;">
+<div class="curplaydiv">Currently playing: <span id="playingfile">nothing</span></div>
 <audio controls="controls" type="audio/mp3" id="pageplayer">
 </audio>
 </div>
+<div id="spacer"></div>
