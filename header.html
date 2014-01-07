@@ -73,7 +73,7 @@ $(function(){
 	      $(this).find("img").attr("src", "/mep-diraudio/play.gif");
 	    });
 	    document.title = "Index of " + decodeURIComponent(document.location.pathname);
-	    $('#playingfile')[0].innerHTML = "nothing";
+	    $('#playstatus')[0].innerHTML = "paused";
           });
 	  media.addEventListener('play', function(media) {
 	    $('tr[data-url]').each(function() {
@@ -84,6 +84,7 @@ $(function(){
 	    $(tablerow).addClass('current');
 	    $(tablerow).find("img").attr("src", "/mep-diraudio/pause.gif");
 	    document.title = "▶ " + getTrackName(media.target.src) + " in " + decodeURIComponent(document.location.pathname);
+	    $('#playstatus')[0].innerHTML = "playing";
 	    $('#playingfile')[0].innerHTML = getTrackName(media.target.src);
           });
 	}
@@ -97,7 +98,7 @@ $(function(){
 <body>
 
 <div id="playerdiv" style="visibility:hidden; position:fixed;">
-<div class="curplaydiv">Currently playing: <span id="playingfile">nothing</span></div>
+<div class="curplaydiv">Currently <span id="playstatus">playing</span>: <span id="playingfile">nothing</span></div>
 <audio controls="controls" type="audio/mp3" id="pageplayer">
 </audio>
 </div>
