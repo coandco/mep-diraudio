@@ -14,9 +14,13 @@ Uses MediaElement.js with the Playlist plugin, modifying Apache's directory list
 
 `cd <path_to_webserver_root>; git clone https://github.com/coandco/mep-diraudio.git`
 
+If you're grabbing the project from the zip, extract it and make sure the extracted directory is named 'mep-diraudio' (as the zip by default extracts to mep-diraudio-master).
+
 ### 2. Copy `sample.htaccess` to `.htaccess` in the folder you wish to expose for MP3 streaming
 
 Alternatively, if you have access to your website's Apache configuration, you can add the lines contained in sample.htaccess into that.
+
+Also, for some reason some webhosts/versions of Apache only work with "SuppressHTMLPreamble" used without a plus sign in front of it, so that's something to try if it's not loading correctly.
 
 ### 3. Enjoy!
 
