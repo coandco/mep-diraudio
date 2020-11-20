@@ -96,7 +96,7 @@ $(function(){
 	    var tablerow = $('tr[data-url$="' + media.target.src + '"]')[0];
 	    $(tablerow).addClass('current');
 	    $(tablerow).find("img").attr("src", "/mep-diraudio/pause.gif");
-	    document.title = "▶ " + getTrackName(media.target.src) + " in " + decodeURIComponent(document.location.pathname);
+	    document.title = "\u25B6 " + getTrackName(media.target.src) + " in " + decodeURIComponent(document.location.pathname);
 	    $('#playstatus')[0].innerHTML = "playing";
 	    $('#playingfile')[0].innerHTML = getTrackName(media.target.src);
           });
